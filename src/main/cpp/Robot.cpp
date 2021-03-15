@@ -365,6 +365,7 @@ class Robot : public frc::TimedRobot {
     rect_x = frc::SmartDashboard::GetNumber("z", 0);  
     rect_w = frc::SmartDashboard::GetNumber("t", 0);  
     rect_h = frc::SmartDashboard::GetNumber("delay", 0);  
+    m_position=0;
   }
 
   void TeleopPeriodic() override 
@@ -377,6 +378,44 @@ class Robot : public frc::TimedRobot {
     scale(z, 0.15, .2, .6);
 
     m_robotDrive.ArcadeDrive(-y, z);
+
+    if (m_stickd.GetRawButtonPressed(6))
+      m_position = (m_position + 1) % 4;
+
+      printf("m_position=%d\n", m_position);
+
+    if (m_position == 0)
+    {
+      // m_shooter = 9.5;
+      rect_y = 140;
+      rect_x = 145;  
+      rect_w = 28;  
+      rect_h = 40;  
+    }
+    else if (m_position == 1)
+    {
+      m_shooter = 9.0;
+      rect_y = 110;
+      rect_x = 148;  
+      rect_w = 40;  
+      rect_h = 50;  
+    }
+    else if (m_position == 2)
+    {
+      m_shooter = 7.0;
+      rect_y = 60;
+      rect_x = 140;  
+      rect_w = 50;  
+      rect_h = 70;  
+    }
+    else if (m_position == 3)
+    {
+      m_shooter = 5.5;
+      rect_y = 10;
+      rect_x = 130;  
+      rect_w = 70;  
+      rect_h = 70;  
+    }
 
     // operator controls
     if (m_sticko.GetRawButton(6))
@@ -435,7 +474,9 @@ class Robot : public frc::TimedRobot {
   double last_y {0};
 
   double m_shooter {0};
+  int m_position;
 };
+
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
