@@ -128,26 +128,52 @@ move_step_t mv_6[] =
 move_step_t mv_7[] = 
 {
   // delay
-  // {0.0, 0.0, 0.0, 0.0, 0.0},
+  {0.0, 0.0, 0.0, 0.0, 0.0},  //initial delay
   {5, 0.0, 0.0, 0.0, 0.0}, //forward 5 feet
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
   {0.0, 90, 0.0, 0.0,0.0},  //90 degrees left
-  // {5, 0.0, 0.0, 0.0, 0.0}, // forward 5 feet
-  // {0.0, 90, 0.0, 0.0, 0.0},  //90 degrees right
-  // {-0.4, 0.0, 3.2, 0.0, 0.0}, //15 feet forward
-  // {0.0, 0.2, 2.0, 0.0, 0.0},  //90 degrees right
-  // {-0.4, 0.0, 1.0, 0.0, 0.0}, //5 feet forward
-  // {-0.4, -0.2, 2.0, 0.0, 0.0}, //90 degrees left
-  // {-0.4, 0.0, 1.0, 0.0, 0.0}, //5 feet forward
-  // {0.0, -0.2, 2.0, 0.0, 0.0}, //90 degrees left
-  // {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
-  // {-0.0, 0.2, 2.0, 0.0, 0.0}, //90 degrees left
-  // {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
-  // {0.0, 0.2, 2.0, 0.0, 0.0},  // 90 degrees right
-  // {-0.4, 0.0, 3.2, 0.0, 0.0}, //15 feet forwards
-  // {0.0, 0.2, 2.0, 0.0, 0.0},  // 90 degrees right
-  // {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
-  // {0.0, -0.2, 2.0, 0.0, 0.0}, // 90 degrees left
-  // {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0},  //forward 5 feet
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, -90, 0.0, 0.0, 0.0},  //90 degrees right
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {10, 0.0, 0.0, 0.0, 0.0}, //15 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, -90, 0.0, 0.0, 0.0},  //90 degrees right
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, //5 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, 90, 0.0, 0.0, 0.0}, //90 degrees left
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, //5 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, 90, 0.0, 0.0, 0.0}, //90 degrees left
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, // 5 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, 90, 0.0, 0.0, 0.0}, //90 degrees left
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, // 5 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, 90, 0.0, 0.0, 0.0},  // 90 degrees left
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, //5 feet forwards
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, -90, 0.0, 0.0, 0.0},  // 90 degrees right
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {10, 0.0, 0.0, 0.0, 0.0}, // 10 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, -90, 0.0, 0.0, 0.0}, // 90 degrees right
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {10, 0.0, 0.0, 0.0, 0.0}, // 10 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, -90, 0.0, 0.0, 0.0}, // 90 degrees right
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, //5 feet forward
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {0.0, 90, 0.0, 0.0, 0.0}, //90 degrees left
+  {0.0, 0.0, 2.0, 0.0, 0.0}, //delay step
+  {5, 0.0, 0.0, 0.0, 0.0}, //5 feet forward
 };
 
 move_step_t none[] =
@@ -207,6 +233,7 @@ class Robot : public frc::TimedRobot {
     {
       cs::UsbCamera camera = frc::CameraServer :: GetInstance()->StartAutomaticCapture();
       camera.SetResolution(320,240);
+      camera.SetFPS(15);
       cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
       cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 320, 240);
       cv::Mat source;
@@ -253,7 +280,7 @@ class Robot : public frc::TimedRobot {
     // m_timer.Reset();
     // m_timer.Start();
 
-    // double delay = frc::SmartDashboard::GetNumber("delay", 5);
+    double delay = frc::SmartDashboard::GetNumber("delay", 5);
     double move = frc::SmartDashboard::GetNumber("auto", 1);
     double t = frc::SmartDashboard::GetNumber("t", 0);
     double y = frc::SmartDashboard::GetNumber("y", 0);
@@ -300,14 +327,8 @@ class Robot : public frc::TimedRobot {
 
     step = 0;
 
-    // t_step_end = m_timer.Get() + delay;
+    t_step_end = m_timer.Get() + delay;
     // t_step_end = m_timer.Get() + mv.steps[0].t;
-
-    t = mv.steps[step].y / 5;
-    printf("t1=%5.2f\n", t);
-    if (t < 0.1) t = 2;
-    printf("t2=%5.2f\n", t);
-    t_step_end += t;
 
     move_complete = false;
 
@@ -331,28 +352,39 @@ class Robot : public frc::TimedRobot {
         if (step_complete)
         {
           step += 1;
-            if (step < mv.total_steps)
+          if (step < mv.total_steps)
+          {
+            double t = mv.steps[step].t;
+            printf("t1=%5.2f\n", t);
+
+            if (t != 0.0)
+              printf("t*=%5.2f\n", t);
+              // ; // timed action
+            else if (mv.steps[step].y != 0.0)
             {
-                // t_step_end += mv.steps[step].t;
-                double t = mv.steps[step].y / 5;
-                printf("t1=%5.2f\n", t);
-                if (t < 0.1) t = 2;
-                printf("t2=%5.2f\n", t);
-                t_step_end += t;
-
-                printf("%d: y=%5.2f z=%5.2f t=%5.2f i=%5.2f d=%5.2f\n", step+1,
-                    mv.steps[step].y, mv.steps[step].z, mv.steps[step].t, mv.steps[step].intake, mv.steps[step].discharge);
-
-                m_gyro->Reset();
+              t = mv.steps[step].y / 5;
             }
-            else
+            else if (mv.steps[step].z != 0.0)
             {
-                // sequence complete
-              printf("%5.2f: move complete\n", t);
-
-              step = mv.total_steps;
-              move_complete = true;
+              t = 2;
             }
+
+            t_step_end += t;
+            printf("t2=%5.2f end=%5.2f\n", t, t_step_end);
+            
+            printf("%d: y=%5.2f z=%5.2f t=%5.2f i=%5.2f d=%5.2f\n", step+1,
+                mv.steps[step].y, mv.steps[step].z, mv.steps[step].t, mv.steps[step].intake, mv.steps[step].discharge);
+
+            m_gyro->Reset();
+          }
+          else
+          {
+              // sequence complete
+            printf("%5.2f: move complete\n", t);
+
+            step = mv.total_steps;
+            move_complete = true;
+          }
         }
     }
 
@@ -363,28 +395,33 @@ class Robot : public frc::TimedRobot {
     {
         // y = mv.steps[step].y;
         y = (mv.steps[step].y != 0) ? -0.4 : 0;
-        z = mv.steps[step].z;
+        // z = mv.steps[step].z;
+
+        double currentAngle = m_gyro->GetAngle();
+        double da = mv.steps[step].z - currentAngle;
+
+        // printf("da=%5.2f error: %5.2f\n", currentAngle, da);
+
+        if (da > 10)
+          z = -0.2;
+        else if (da > 1)
+          z = -0.1;
+        else if (da > .1)
+          z = -0.01;
+        else if (da < -10)
+          z = 0.2;
+        else if (da < -1)
+          z = 0.1;
+        else if (da < -.1)
+          z = 0.01;
+
+        printf("y=%5.2f z=%5.2f t=%5.2f\n", y, z, t);
+        if (mv.steps[step].t == 0.0 && y > -0.01 && z == 0) 
+        {
+          t_step_end = m_timer.Get();
+          printf("t_step_end=%5.2f\n", t_step_end);
+        }
     }
-
-    double currentAngle = m_gyro->GetAngle();
-    double da = z - currentAngle;
-
-    // printf("error: %5.2f\n", da);
-
-    if (da > 10)
-      z = -0.2;
-    else if (da > 1)
-      z = -0.1;
-    else if (da > .1)
-      z = -0.01;
-    else if (da < -10)
-      z = 0.2;
-    else if (da < -1)
-      z = 0.1;
-    else if (da < -.1)
-      z = 0.01;
-
-    if (z == 0) t_step_end = m_timer.Get();
 
     if (y == 0.0)
     {

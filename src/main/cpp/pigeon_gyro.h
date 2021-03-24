@@ -104,8 +104,8 @@ class pigeon_gyro : public GyroBase {
 
   PigeonIMU * _pidgey;
 
-  double m_angle;
-  double m_rate;
+  mutable double m_angle;
+  mutable double m_rate;
 
   hal::SimDevice m_simDevice;
   hal::SimDouble m_simAngle;

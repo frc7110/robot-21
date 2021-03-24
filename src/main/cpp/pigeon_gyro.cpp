@@ -57,51 +57,10 @@ pigeon_gyro::pigeon_gyro(int can_id)
   SendableRegistry::GetInstance().AddLW(this, "pigeon_gyro", m_can_id);
 }
 
-#if 0
-static bool CalcParity(int v) {
-  bool parity = false;
-  while (v != 0) {
-    parity = !parity;
-    v = v & (v - 1);
-  }
-  return parity;
-}
-
-static inline int BytesToIntBE(uint8_t* buf) {
-  int result = static_cast<int>(buf[0]) << 24;
-  result |= static_cast<int>(buf[1]) << 16;
-  result |= static_cast<int>(buf[2]) << 8;
-  result |= static_cast<int>(buf[3]);
-  return result;
-}
-
-uint16_t pigeon_gyro::ReadRegister(int reg) {
-  int cmd = 0x80000000 | static_cast<int>(reg) << 17;
-  if (!CalcParity(cmd)) {
-    cmd |= 1u;
-  }
-
-  // big endian
-  uint8_t buf[4] = {static_cast<uint8_t>((cmd >> 24) & 0xff),
-                    static_cast<uint8_t>((cmd >> 16) & 0xff),
-                    static_cast<uint8_t>((cmd >> 8) & 0xff),
-                    static_cast<uint8_t>(cmd & 0xff)};
-
-  m_spi.Write(buf, 4);
-  m_spi.Read(false, buf, 4);
-  if ((buf[0] & 0xe0) == 0) {
-    return 0;  // error, return 0
-  }
-  return static_cast<uint16_t>((BytesToIntBE(buf) >> 5) & 0xffff);
-}
-#endif
-
 double pigeon_gyro::GetAngle() const {
   if (m_simAngle) {
     return m_simAngle.Get();
   }
-    
-  double *angle_ptr = (double *)&m_angle;
 
   bool angleIsGood = (_pidgey->GetState() == PigeonIMU::Ready) ? true : false;
 
@@ -109,30 +68,27 @@ double pigeon_gyro::GetAngle() const {
   {
     PigeonIMU::FusionStatus stat;
     _pidgey->GetFusedHeading(stat);
-    *angle_ptr = stat.heading;
+    m_angle = stat.heading;
   }
 
-  return *angle_ptr;
+  return m_angle;
 }
 
 double pigeon_gyro::GetRate() const {
   if (m_simRate) {
     return m_simRate.Get();
   }
-    
-  double *rate_ptr = (double *)&m_rate;
 
   bool angleIsGood = (_pidgey->GetState() == PigeonIMU::Ready) ? true : false;
 
   if (angleIsGood)
   {
     double xyz_dps[3];
-//  _pidgey->GetGeneralStatus(genStatus);
     _pidgey->GetRawGyro(xyz_dps);
-    *rate_ptr = xyz_dps[2];
+    m_rate = xyz_dps[2];
   }
 
-  return *rate_ptr;
+  return m_rate;
 }
 
 void pigeon_gyro::Reset() {
