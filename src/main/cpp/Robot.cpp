@@ -23,6 +23,11 @@
 
 #define SIZEOF_ARRAY(array_name) (sizeof(array_name) / sizeof(array_name[0]))
 
+double rect_x;
+double rect_y;
+double rect_w;
+double rect_h;
+
 typedef struct
 {
     double y;
@@ -105,23 +110,25 @@ move_step_t mv_6[] =
   // delay
   {0.0, 0.0, 0.0, 0.0, 0.0},
   {-0.4, 0.0, 1.0, 0.0, 0.0}, //forward 5 feet
-  {0.0, -0.2, 2.0, 0.0,0.0},  //90 degrees left
+  {0.0, -0.2, 1.2, 0.0,0.0},  //90 degrees left
+  {-0.4, 0.0, 1.0, 0.0, 0.0}, //forward 5 feet
+  {0.0, 0.2, 1.2, 0.0, 0.0},  //90 degrees right
+  {-0.4, 0.0, 2.5, 0.0, 0.0}, //15 feet forward
+  {0.0, 0.2, 1.2, 0.0, 0.0},  //90 degrees right
+  {-0.4, 0.0, 1.0, 0.0, 0.0}, //5 feet forward
+  {-0.4, -0.2, 1.2, 0.0, 0.0}, //90 degrees left
+  {-0.4, 0.0, 1.0, 0.0, 0.0}, //5 feet forward
+  {0.0, -0.2, 1.2, 0.0, 0.0}, //90 degrees left
+  {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
+  {-0.0, -0.2, 1.2, 0.0, 0.0}, //90 degrees left
+  {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
+  {0.0, -0.2, 1.2, 0.0, 0.0},  // 90 degrees left
   {-0.4, 0.0, 1.0, 0.0, 0.0}, // forward 5 feet
-  {0.0, 0.2, 2.0, 0.0, 0.0},  //90 degrees right
-  {-0.4, 0.0, 3.2, 0.0, 0.0}, //15 feet forward
-  {0.0, 0.2, 2.0, 0.0, 0.0},  //90 degrees right
-  {-0.4, 0.0, 1.0, 0.0, 0.0}, //5 feet forward
-  {-0.4, -0.2, 2.0, 0.0, 0.0}, //90 degrees left
-  {-0.4, 0.0, 1.0, 0.0, 0.0}, //5 feet forward
-  {0.0, -0.2, 2.0, 0.0, 0.0}, //90 degrees left
+  {0.0, 0.2, 1.2, 0.0, 0.0},  //90 degrees right
+  {-0.4, 0.0, 2.5, 0.0, 0.0}, //15 feet forwards
+  {0.0, 0.2, 1.2, 0.0, 0.0},  // 90 degrees right
   {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
-  {-0.0, 0.2, 2.0, 0.0, 0.0}, //90 degrees left
-  {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
-  {0.0, 0.2, 2.0, 0.0, 0.0},  // 90 degrees right
-  {-0.4, 0.0, 3.2, 0.0, 0.0}, //15 feet forwards
-  {0.0, 0.2, 2.0, 0.0, 0.0},  // 90 degrees right
-  {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
-  {0.0, -0.2, 2.0, 0.0, 0.0}, // 90 degrees left
+  {0.0, -0.2, 1.2, 0.0, 0.0}, // 90 degrees left
   {-0.4, 0.0, 1.0, 0.0, 0.0}, // 5 feet forward
 };
 
@@ -188,7 +195,7 @@ double accel_max = 0.02;
 // static 
 void clamp(double &value, const double ul, const double ll)
 {
-    if (value < ll)
+  if (value < ll)
 	{
     	value = ll;
 	}
@@ -226,6 +233,34 @@ void scale(double &value, const double deadband, const double ll, const double u
 
 
 class Robot : public frc::TimedRobot {
+   //Attempt to set up advanced camera server program. Will need more work. 
+    static void VisionThread() 
+    {
+      cs::UsbCamera camera = frc::CameraServer :: GetInstance()->StartAutomaticCapture();
+      camera.SetResolution(320,240);
+      cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
+      cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 320, 240);
+      cv::Mat source;
+      cv::Mat output;
+      while(true) {
+        if (cvSink.GrabFrame(source) == 0) {
+          continue;
+        }
+        // int x = 0;
+        // int y = 0;
+        // int width = 20;
+        // int height = 20;
+        // cv::Rect rect(x, y, width, height);
+        cv::Rect rect(rect_x, rect_y, rect_w, rect_h);
+
+        //cvtColor(source, output, cv::COLOR_BGR2GRAY);
+        //  cv::rectangle(output, rect, cv::Scalar(0, 255, 0));
+        // outputStreamStd.PutFrame(output);
+        cv::rectangle(source, rect, cv::Scalar(0, 255, 0));
+        outputStreamStd.PutFrame(source);
+      }
+    }
+
  public:
 
      //Attempt to set up advanced camera server program. Will need more work. 
@@ -287,6 +322,7 @@ class Robot : public frc::TimedRobot {
     double z = frc::SmartDashboard::GetNumber("z", 0);
     y=y/10;
     z=z/10;
+    
 
     mv.steps = mv_default;
     mv.total_steps = SIZEOF_ARRAY(mv_default);
@@ -332,10 +368,8 @@ class Robot : public frc::TimedRobot {
 
     move_complete = false;
 
-    printf("%d: y=%5.2f z=%5.2f t=%5.2f i=%5.2f d=%5.2f\n", step+1,
-        mv.steps[0].y, mv.steps[0].z, mv.steps[0].t, mv.steps[0].intake, mv.steps[0].discharge);
-
-    m_gyro->Reset();
+    // printf("%d: y=%5.2f z=%5.2f t=%5.2f i=%5.2f d=%5.2f\n", step+1,
+    //     mv.steps[0].y, mv.steps[0].z, mv.steps[0].t, mv.steps[0].intake, mv.steps[0].discharge);
   }
 
   void AutonomousPeriodic() override 
@@ -457,6 +491,12 @@ class Robot : public frc::TimedRobot {
      m_shooter = m_shooter / 10;
 
      printf("shooter=%5.2f\n", m_shooter);
+
+    rect_y = frc::SmartDashboard::GetNumber("y", 0);
+    rect_x = frc::SmartDashboard::GetNumber("z", 0);  
+    rect_w = frc::SmartDashboard::GetNumber("t", 0);  
+    rect_h = frc::SmartDashboard::GetNumber("delay", 0);  
+    m_position=0;
   }
 
   void TeleopPeriodic() override 
@@ -468,27 +508,65 @@ class Robot : public frc::TimedRobot {
     scale(y, 0.15, .2, .7);
     scale(z, 0.15, .2, .6);
 
-    m_robotDrive.ArcadeDrive(y, z);
+    m_robotDrive.ArcadeDrive(-y, z);
+
+    if (m_stickd.GetRawButtonPressed(6))
+      m_position = (m_position + 1) % 4;
+
+      printf("m_position=%d\n", m_position);
+
+    if (m_position == 0)
+    {
+      // m_shooter = 9.5;
+      rect_y = 140;
+      rect_x = 145;  
+      rect_w = 28;  
+      rect_h = 40;  
+    }
+    else if (m_position == 1)
+    {
+      m_shooter = 9.0;
+      rect_y = 110;
+      rect_x = 148;  
+      rect_w = 40;  
+      rect_h = 50;  
+    }
+    else if (m_position == 2)
+    {
+      m_shooter = 7.0;
+      rect_y = 60;
+      rect_x = 140;  
+      rect_w = 50;  
+      rect_h = 70;  
+    }
+    else if (m_position == 3)
+    {
+      m_shooter = 5.5;
+      rect_y = 10;
+      rect_x = 130;  
+      rect_w = 70;  
+      rect_h = 70;  
+    }
 
     // operator controls
-    if (m_sticko.GetRawButton(4))
-      m_telescope.Set(m_shooter);
-    else if (m_sticko.GetRawButton(1))
+    if (m_sticko.GetRawButton(6))
+    // //  m_telescope.Set(m_shooter);
+    // else if (m_sticko.GetRawButton(1))
       m_telescope.Set(-m_shooter);
     else 
-      m_telescope.Set(0);
+     m_telescope.Set(0);
 
     if (m_sticko.GetRawButton(3))
-      m_lift.Set(-0.8);
+      m_lift.Set(-0.6);
     else 
       m_lift.Set(0);
 
-    if (m_sticko.GetRawButton(6))
-      m_winch.Set(0.6);
-    else if (m_sticko.GetRawButton(5))
-      m_winch.Set(-0.6);
-    else 
-      m_winch.Set(0);
+    // if (m_sticko.GetRawButton(6))
+    //   m_winch.Set(0.6);
+    // else if (m_sticko.GetRawButton(5))
+    //   m_winch.Set(-0.6);
+    // else 
+    //   m_winch.Set(0);
 
     if (m_sticko.GetRawButton(2))
       m_discharge.Set(-0.8);
@@ -529,7 +607,9 @@ class Robot : public frc::TimedRobot {
   double m_shooter {0};
 
   frc::pigeon_gyro * m_gyro;
+  int m_position;
 };
+
 
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
