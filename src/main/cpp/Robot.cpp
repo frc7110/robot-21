@@ -249,26 +249,27 @@ class Robot : public frc::TimedRobot {
           continue;
         }
 
-        cvtColor(source, output, cv::COLOR_BGR2GRAY);
+        // cvtColor(source, output, cv::COLOR_BGR2GRAY);
 
-        cv::Rect rect(135, 95, 50, 50);
-        cv::rectangle(output, rect, cv::Scalar(0, 255, 0));
+        // cv::Rect rect(135, 95, 50, 50);
+        cv::Rect rect(rect_x, rect_y, rect_w, rect_h);
+        cv::rectangle(source, rect, cv::Scalar(0, 255, 0));
 
-        outputStreamStd.PutFrame(output);
+        outputStreamStd.PutFrame(source);
       }
     }
 
   Robot() {
-    printf("robot-21 gyro v1.1.0 %s %s\n", __DATE__, __TIME__);
+    printf("robot-21 gyro v1.1.1 %s %s\n", __DATE__, __TIME__);
 
     m_robotDrive.SetExpiration(0.1);
     m_timer.Start();
 
     m_gyro = new frc::pigeon_gyro(0);
     
-#if 1
-    // frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
-    // frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
+#if 0
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
 #endif
 
     frc::SmartDashboard::PutNumber("delay", 3);
@@ -472,6 +473,12 @@ class Robot : public frc::TimedRobot {
 
   void TeleopPeriodic() override 
   {
+    //  rect_y = frc::SmartDashboard::GetNumber("y", 0);
+    // rect_x = frc::SmartDashboard::GetNumber("z", 0);  
+    // rect_w = frc::SmartDashboard::GetNumber("t", 0);  
+    // rect_h = frc::SmartDashboard::GetNumber("delay", 0);  
+    // m_position=0;
+
     // driver controls
     double y = m_stickd.GetRawAxis(1);
     double z = m_stickd.GetRawAxis(4);
@@ -488,36 +495,41 @@ class Robot : public frc::TimedRobot {
 
     if (m_position == 0)
     {
-      // m_shooter = 9.5;
-      rect_y = 140;
+      frc::SmartDashboard::PutString("position", "20ft");
+      m_shooter = 8.0;
+      rect_y = 153;
       rect_x = 145;  
       rect_w = 28;  
       rect_h = 40;  
     }
     else if (m_position == 1)
     {
-      m_shooter = 9.0;
-      rect_y = 110;
+      frc::SmartDashboard::PutString("position", "15ft");
+      m_shooter = 7.5;
+      rect_y = 125;
       rect_x = 148;  
       rect_w = 40;  
       rect_h = 50;  
     }
     else if (m_position == 2)
     {
+      frc::SmartDashboard::PutString("position", "10ft");
       m_shooter = 7.0;
-      rect_y = 60;
+      rect_y = 80;
       rect_x = 140;  
       rect_w = 50;  
-      rect_h = 70;  
+      rect_h = 65;  
     }
     else if (m_position == 3)
     {
-      m_shooter = 5.5;
-      rect_y = 10;
+      frc::SmartDashboard::PutString("position", "<10ft");
+      m_shooter = 6.5;
+      rect_y = 25;
       rect_x = 130;  
       rect_w = 70;  
       rect_h = 70;  
     }
+    printf("%5.2f %5.2f %5.2f %5.2f\n", rect_x, rect_y, rect_w, rect_h);
 
     // operator controls
     if (m_sticko.GetRawButton(6))
