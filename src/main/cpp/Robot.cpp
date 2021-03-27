@@ -233,36 +233,7 @@ void scale(double &value, const double deadband, const double ll, const double u
 
 
 class Robot : public frc::TimedRobot {
-   //Attempt to set up advanced camera server program. Will need more work. 
-    static void VisionThread() 
-    {
-      cs::UsbCamera camera = frc::CameraServer :: GetInstance()->StartAutomaticCapture();
-      camera.SetResolution(320,240);
-      cs::CvSink cvSink = frc::CameraServer::GetInstance()->GetVideo();
-      cs::CvSource outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 320, 240);
-      cv::Mat source;
-      cv::Mat output;
-      while(true) {
-        if (cvSink.GrabFrame(source) == 0) {
-          continue;
-        }
-        // int x = 0;
-        // int y = 0;
-        // int width = 20;
-        // int height = 20;
-        // cv::Rect rect(x, y, width, height);
-        cv::Rect rect(rect_x, rect_y, rect_w, rect_h);
-
-        //cvtColor(source, output, cv::COLOR_BGR2GRAY);
-        //  cv::rectangle(output, rect, cv::Scalar(0, 255, 0));
-        // outputStreamStd.PutFrame(output);
-        cv::rectangle(source, rect, cv::Scalar(0, 255, 0));
-        outputStreamStd.PutFrame(source);
-      }
-    }
-
- public:
-
+  public:
      //Attempt to set up advanced camera server program. Will need more work. 
     static void VisionThread() 
     {
@@ -288,7 +259,7 @@ class Robot : public frc::TimedRobot {
     }
 
   Robot() {
-    printf("robot-21 vision v1.1.0 %s %s\n", __DATE__, __TIME__);
+    printf("robot-21 gyro v1.1.0 %s %s\n", __DATE__, __TIME__);
 
     m_robotDrive.SetExpiration(0.1);
     m_timer.Start();
@@ -513,7 +484,7 @@ class Robot : public frc::TimedRobot {
     if (m_stickd.GetRawButtonPressed(6))
       m_position = (m_position + 1) % 4;
 
-      printf("m_position=%d\n", m_position);
+    printf("m_position=%d\n", m_position);
 
     if (m_position == 0)
     {
